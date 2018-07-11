@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="297" height="56.818" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <g>
+  <title>background</title>
+  <rect x="-1" y="-1" width="299" height="58.818" id="canvas_background" fill="none"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_1">
+   <g id="svg_2">
+    <defs>
+     <polygon id="SVGID_1_" points="289.061,18.782 35,43.824 25.588,18.782 0,18.782 0,0 297,0 297,18.782    "/>
+    </defs>
+    <clipPath id="SVGID_2_">
+     <use xlink:href="#SVGID_1_" id="svg_3"/>
+    </clipPath>
+    <g clip-path="url(#SVGID_2_)" id="svg_4">
+     <g id="svg_5">
+      <defs>
+       <rect id="SVGID_3_" x="-270" y="-142.675" width="612" height="792"/>
+      </defs>
+      <clipPath id="SVGID_4_">
+       <use xlink:href="#SVGID_3_" id="svg_6"/>
+      </clipPath>
+      <rect x="-5" y="-5" clip-path="url(#SVGID_4_)" fill="#EDEDED" width="307" height="53.824" id="svg_7"/>
+     </g>
+    </g>
+   </g>
+  </g>
+  <text transform="matrix(1,0,0,1,115.3828,54.2207) " fill="#005972" font-family="'ArialMT'" font-size="8" id="svg_8">HIGH PRESSURE</text>
+  <text fill="#005972" x="3" y="53.909" id="svg_11" font-size="8" font-family="'ArialMT'" xml:space="preserve">HUB</text>
+  <text fill="#005972" x="282" y="53.909" id="svg_9" font-size="8" font-family="'ArialMT'" xml:space="preserve">TIP</text>
+ </g>
+</svg>

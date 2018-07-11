@@ -1,0 +1,35 @@
+<svg width="297" height="54.747" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <g>
+  <title>background</title>
+  <rect x="-1" y="-1" width="299" height="56.747" id="canvas_background" fill="none"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_1">
+   <g id="svg_2">
+    <defs>
+     <polygon id="SVGID_1_" points="289.061,25.042 35,0 25.588,25.042 0,25.042 0,43.824 297,43.824 297,25.042    "/>
+    </defs>
+    <clipPath id="SVGID_2_">
+     <use xlink:href="#SVGID_1_" id="svg_3"/>
+    </clipPath>
+    <g clip-path="url(#SVGID_2_)" id="svg_4">
+     <g id="svg_5">
+      <defs>
+       <rect id="SVGID_3_" x="-270" y="-232.229" width="612" height="792"/>
+      </defs>
+      <clipPath id="SVGID_4_">
+       <use xlink:href="#SVGID_3_" id="svg_6"/>
+      </clipPath>
+      <rect x="-5" y="-5" clip-path="url(#SVGID_4_)" fill="#EDEDED" width="307" height="53.824" id="svg_7"/>
+     </g>
+    </g>
+   </g>
+  </g>
+  <g id="svg_8">
+   <text transform="matrix(1,0,0,1,116.271,52.7832) " fill="#005972" font-family="'ArialMT'" font-size="8" id="svg_9">LOW PRESSURE</text>
+  </g>
+  <text fill="#005972" x="4" y="52.373505" id="svg_10" font-size="8" font-family="'ArialMT'" xml:space="preserve">HUB</text>
+  <text fill="#005972" x="282" y="52.373505" id="svg_11" font-size="8" font-family="'ArialMT'" xml:space="preserve">TIP</text>
+ </g>
+</svg>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="382px" height="560px" viewBox="0 0 382 560" enable-background="new 0 0 382 560" xml:space="preserve">
+<g>
+	<g>
+		<g>
+			<defs>
+				<polygon id="SVGID_1_" points="345.492,488.047 311.122,138.708 345.492,125.767 345.492,90.583 371.271,90.583 
+					371.271,498.964 345.492,498.964 				"/>
+			</defs>
+			<clipPath id="SVGID_2_">
+				<use xlink:href="#SVGID_1_"  overflow="visible"/>
+			</clipPath>
+			<g clip-path="url(#SVGID_2_)">
+				<rect x="305.846" y="85.307" fill="#EDEDED" width="70.702" height="418.934"/>
+			</g>
+		</g>
+	</g>
+</g>
+<rect x="233.033" y="85.307" fill="#EDEDED" width="36.934" height="418.934"/>
+<g>
+	<g>
+		<g>
+			<defs>
+				<polygon id="SVGID_3_" points="86.354,89.527 86.354,134.135 80.022,210.105 80.022,497.909 54.697,497.909 54.697,209.88 
+					61.028,135.58 61.028,89.527 				"/>
+			</defs>
+			<clipPath id="SVGID_4_">
+				<use xlink:href="#SVGID_3_"  overflow="visible"/>
+			</clipPath>
+			<g clip-path="url(#SVGID_4_)">
+				<rect x="49.42" y="84.251" fill="#EDEDED" width="42.21" height="418.934"/>
+			</g>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<g>
+			<defs>
+				<polygon id="SVGID_5_" points="158.564,488.047 192.934,138.708 158.564,125.767 158.564,90.583 132.785,90.583 
+					132.785,498.964 158.564,498.964 				"/>
+			</defs>
+			<clipPath id="SVGID_6_">
+				<use xlink:href="#SVGID_5_"  overflow="visible"/>
+			</clipPath>
+			<g clip-path="url(#SVGID_6_)">
+				<rect x="127.509" y="85.307" fill="#EDEDED" width="70.702" height="418.934"/>
+			</g>
+		</g>
+	</g>
+</g>
+<path fill="none" stroke="#30BEC1" stroke-linecap="square" stroke-miterlimit="10" d="M15.652,90.055v414.862"/>
+<path fill="none" stroke="#30BEC1" stroke-linecap="square" stroke-miterlimit="10" d="M25.621,169.093h355.731"/>
+<path fill="none" stroke="#30BEC1" stroke-linecap="square" stroke-miterlimit="10" d="M25.621,252.88h355.731"/>
+<path fill="none" stroke="#30BEC1" stroke-linecap="square" stroke-miterlimit="10" d="M25.621,336.667h355.731"/>
+<path fill="none" stroke="#30BEC1" stroke-linecap="square" stroke-miterlimit="10" d="M25.621,420.453h355.731"/>
+<g>
+	<g transform="matrix(0,1,-1,0,87.7158,36.0498)">
+		<text transform="matrix(1 0 0 1 80.0381 60.456)" fill="#35C8CC" font-family="'Arial-BoldMT'" font-size="8.442">20%</text>
+	</g>
+	<g transform="matrix(0,1,-1,0,174.716,123.05)">
+		<text transform="matrix(1 0 0 1 78.5359 147.4562)" fill="#35C8CC" font-family="'Arial-BoldMT'" font-size="8.442">40%</text>
+	</g>
+	<g transform="matrix(0,1,-1,0,258.716,207.05)">
+		<text transform="matrix(1 0 0 1 80.033 231.4562)" fill="#35C8CC" font-family="'Arial-BoldMT'" font-size="8.442">60%</text>
+	</g>
+	<g transform="matrix(0,1,-1,0,346.716,295.05)">
+		<text transform="matrix(1 0 0 1 77.5311 319.4562)" fill="#35C8CC" font-family="'Arial-BoldMT'" font-size="8.442">80%</text>
+	</g>
+	<g transform="matrix(0,1,-1,0,412.105,360.438)">
+		<text transform="matrix(1 0 0 1 95.2925 384.8452)" fill="#35C8CC" font-family="'Arial-BoldMT'" font-size="8.442">100%</text>
+	</g>
+	<text transform="matrix(1 0 0 1 301.3779 71.5879)" fill="#005972" font-family="'ArialMT'" font-size="8.442">HIGH PRESSURE</text>
+	<text transform="matrix(1 0 0 1 54.2246 66.3125)" fill="#005972" font-family="'ArialMT'" font-size="8.442">TRAILING</text>
+	<text transform="matrix(1 0 0 1 61.7285 75.8096)" fill="#005972" font-family="'ArialMT'" font-size="8.442">EDGE</text>
+	<text transform="matrix(1 0 0 1 232.4424 66.3125)" fill="#005972" font-family="'ArialMT'" font-size="8.442">LEADING</text>
+	<text transform="matrix(1 0 0 1 239.0107 75.8096)" fill="#005972" font-family="'ArialMT'" font-size="8.442">EDGE</text>
+	<text transform="matrix(1 0 0 1 116.8276 71.5879)" fill="#005972" font-family="'ArialMT'" font-size="8.442">LOW PRESSURE</text>
+</g>
+</svg>
