@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Aux from '../../../hoc/Auxs/Auxs';
 import logoUrl from '../../../assets/images/logo.svg';
+import {Link} from 'react-router-dom';
 
 class Header extends Component {
     render() {
@@ -19,7 +20,7 @@ class Header extends Component {
                             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                                 <ul className="navbar-nav mr-auto">
                                     <li className="nav-item">
-                                        <a className="nav-link">Home</a>
+                                        <Link to="/operator/mapview" className="nav-link">Home</Link>
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link">Report</a>

@@ -6,10 +6,8 @@ class Login extends Component {
 
 
     componentDidMount() {
-        console.log(this.props);
         this.token = this.props.match.params.id;
         this.token = atob(this.props.match.params.id);
-        console.log(this.token);
         if (!this.token) {
             // const baseUrl = environment.baseUrl;
             // document.location.href = baseUrl;
@@ -18,7 +16,6 @@ class Login extends Component {
             this.props.history.push({
                 pathname: '/operator/mapview'
             });
-            
         }
     }
     render() {
