@@ -16,6 +16,7 @@ class Mapview extends Component {
     siteProjectData = [];
     renderLeftPanel = null;
     renderRightPanel =  null;
+    MainPanel =  null;
     state = {
         selectedSiteData: [],
         siteProjectData: [],
@@ -99,6 +100,12 @@ class Mapview extends Component {
             this.renderLeftPanel = (<LeftPanel selectedsitedata={this.state.siteProjectData} view="mapview" {...this.props} issinglesite={this.state.isSingleSite} />);
             this.renderRightPanel = (<RightPanel selectedsitedata={this.state.siteProjectData} view="mapview" {...this.props} issinglesite={this.state.isSingleSite} />);
         }
+        if(this.state.selectedSiteData.length > 0){
+            this.MainPanel =  <MainPanel selectedsitedata={this.state.selectedSiteData} view="mapview" {...this.props} issinglesite={this.state.isSingleSite}/>
+            {this.state.isSingleSite?<div className="rightpanneltoggle" id="toggleright" >
+                <img src={rightToggle} />
+            </div>:null}
+        }
         return (
             <Aux>
                 <section id="landingpage">
@@ -112,11 +119,7 @@ class Mapview extends Component {
                             <div className="leftpanneltoggle" id="toggleleft">
                                 <img src={SiteFilterlft} />
                             </div>
-                            <MainPanel />
-                            {this.state.isSingleSite?<div className="rightpanneltoggle" id="toggleright" >
-                                <img src={rightToggle} />
-                            </div>:null}
-
+                           {this.MainPanel}
                             <div className="rightpanneltogglegends" id="togglerightlegends" >
                                 <img src={LegendsPng} />
                             </div>

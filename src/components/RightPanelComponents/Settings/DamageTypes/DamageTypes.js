@@ -51,7 +51,7 @@ class DamageTypes extends Component {
         this.state.ConceptsList.map((damage, index) => {
             //const disableClass = !severity.isSelected ? classes.Disable : null
             this.tableTrData.push(
-                <div className="sitesprojectsopts">
+                <div className="sitesprojectsopts" key={damage.ConceptTypeId}>
                     <input className="form-check-input" onChange={($event) => this.checked(damage.ConceptTypeId)}
                         type="checkbox" value="" checked={damage.isChecked} />
                     <label className="form-check-label">{damage.Name.toUpperCase()}</label>
@@ -110,7 +110,7 @@ class DamageTypes extends Component {
                                     <div className="sitesprojectsopts">
                                         <input className="form-check-input c-pointer" type="checkbox" value="" id="defaultCheck1" checked={this.isSelectAll}
                                             onChange={($event) => this.selectAll()} />
-                                        <label className="form-check-label selectalllabel" for="defaultCheck1">Select All</label>
+                                        <label className="form-check-label selectalllabel" htmlFor="defaultCheck1">Select All</label>
                                     </div>
                                 </div>
                             </div>

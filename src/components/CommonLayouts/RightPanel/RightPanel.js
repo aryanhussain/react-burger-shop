@@ -10,17 +10,27 @@ class RightPanel extends Component {
     }
 
     renderByConditions(){
+        const analysisBlock = this.props.match.params.id?'block':'none';
+        const legendBlock = !this.props.match.params.id?'block':'none';
         if(this.props.match.params.id && this.props.view == 'mapview'){
            return <div id="accordion" className="leftaccordion">
+           <div className="onclickanalysis" style={{display:analysisBlock}}>
+
+           </div>
+           <div className="onclickanlegend" style={{display:legendBlock}}>
+
+           </div>
             <SitesAndProjects {...this.props} />
             <ListSettings {...this.props} />
             <SeverityTypes {...this.props} />
             <DamageTypes {...this.props} />
             </div>
         }else if(!this.props.match.params.id && this.props.view == 'mapview'){
-          return  <div id="accordion" className="leftaccordion"><SitesAndProjects {...this.props} /></div>
-        }else{
+          return  <div className="onclickanlegend" style={{display:legendBlock}}>
 
+          </div>
+        }else{
+            
         }
     }
 

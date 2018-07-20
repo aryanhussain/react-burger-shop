@@ -17,6 +17,7 @@ const Layout = ( WrappedComponent ) => {
             this.setState({conceptTypes:Data});
         } )
         .catch( error => {
+            this.setState({conceptTypes:[]});
             console.log(error);
         } );
     }
