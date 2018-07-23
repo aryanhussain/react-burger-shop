@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { GoogleMap, Marker, withGoogleMap, withScriptjs } from "react-google-maps";
-
+import img from '../../../assets//images/eolic-energy.png';
+import img1 from '../../../assets//images/active_turbine.png';
 
 
 
@@ -20,63 +21,66 @@ class SiteMapView extends Component {
     }
 
     renderMap() {
-        const coords = { lat: 41.375885, lng: 2.177813 };
-        var marker = {};
-        const mapProp = {
-            center: {
-                lat: coords.lat,
-                lng: coords.lng
-            },
-            zoom: 3,
-            mapTypeId: window.google.maps.MapTypeId.SATELLITE
-        };
-        // create map instance
-        var map = new window.google.maps.Map(this.refs.mapContainer,mapProp);
-        const infoWindow = new window.google.maps.InfoWindow();
-        var that = this;
-        this.props.selectedsitedata.map(element =>{
-        this.getSiteLatLongAsyc(element).then(latLong => {
-            if (latLong) {
-                debugger;
-                var icon = {
-                  url: element.DamageCount > 0 ? "assets/images/eolic-energy.png" : "assets/images/active_turbine.png", // url
-                  scaledSize: new window.google.maps.Size(25, 25), // scaled size
-                };
-    
-                marker[element.SiteProfileId] = new window.google.maps.Marker({
-                  position: { lat: latLong.lat(), lng: latLong.lng() },
-                  title: element.SiteName,
-                  icon: icon,
-                });
-                marker[element.SiteProfileId].setMap(map);
-    
-                window.google.maps.event.addListener(marker[element.SiteProfileId], 'click', (function (t, i) {
-                  infoWindow.setOptions({
-                    content: that._mapViewService.generateHtml(element, that),
-                    position: { lat: latLong.lat(), lng: latLong.lng() }
-                  });
-                  infoWindow.open(map);
-                  if (element.DamageClassification.length > 0) {
-                    const makeChart = [];
-                    element.DamageClassification.forEach(el => {
-                      makeChart.push({
-                        label: el.Severity,
-                        value: el.SeverityCount,
-                        color: that.getcolor(el.Severity)
-                      });
+        if(!this.props.issinglesite){
+            const coords = { lat: 41.375885, lng: 2.177813 };
+            var marker = {};
+            const mapProp = {
+                center: {
+                    lat: coords.lat,
+                    lng: coords.lng
+                },
+                zoom: 3,
+                mapTypeId: window.google.maps.MapTypeId.SATELLITE
+            };
+            // create map instance
+            var map = new window.google.maps.Map(this.refs.mapContainer,mapProp);
+            const infoWindow = new window.google.maps.InfoWindow();
+            var that = this;
+            this.props.selectedsitedata.map(element =>{
+            this.getSiteLatLongAsyc(element).then(latLong => {
+                if (latLong) {
+                    var icon = {
+                    url: element.DamageCount > 0 ? img : img1, // url
+                    scaledSize: new window.google.maps.Size(25, 25), // scaled size
+                    };
+        
+                    marker[element.SiteProfileId] = new window.google.maps.Marker({
+                    position: { lat: latLong.lat(), lng: latLong.lng() },
+                    title: element.SiteName,
+                    icon: icon,
                     });
-                    setTimeout(() => {
-                      that.loadPieChart(element, makeChart);
-                    }, 100);
-                  }
-                }));
-    
-              } else {
-                //console.log('Geocode was not successful for the following reason: ' + status);
-              }
-            
-        })
-        })
+                    marker[element.SiteProfileId].setMap(map);
+        
+                    window.google.maps.event.addListener(marker[element.SiteProfileId], 'click', (function (t, i) {
+                    infoWindow.setOptions({
+                        content: that._mapViewService.generateHtml(element, that),
+                        position: { lat: latLong.lat(), lng: latLong.lng() }
+                    });
+                    infoWindow.open(map);
+                    if (element.DamageClassification.length > 0) {
+                        const makeChart = [];
+                        element.DamageClassification.forEach(el => {
+                        makeChart.push({
+                            label: el.Severity,
+                            value: el.SeverityCount,
+                            color: that.getcolor(el.Severity)
+                        });
+                        });
+                        setTimeout(() => {
+                        that.loadPieChart(element, makeChart);
+                        }, 100);
+                    }
+                    }));
+        
+                } else {
+                    //console.log('Geocode was not successful for the following reason: ' + status);
+                }
+                
+            })
+            })
+        }else{
+            console.log("Dssd")
+        }
     }
 
 

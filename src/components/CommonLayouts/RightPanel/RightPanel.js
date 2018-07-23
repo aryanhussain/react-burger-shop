@@ -5,9 +5,6 @@ import SeverityTypes from '../../RightPanelComponents/Settings/SeverityTypes/Sev
 import DamageTypes from '../../RightPanelComponents/Settings/DamageTypes/DamageTypes';
 
 class RightPanel extends Component {
-    componentDidUpdate() {
-        console.log(this.props)
-    }
 
     renderByConditions(){
         const analysisBlock = this.props.match.params.id?'block':'none';

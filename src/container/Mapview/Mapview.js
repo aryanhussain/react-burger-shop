@@ -24,7 +24,9 @@ class Mapview extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        
         if (nextProps.match.params.id) {
+            this.siteProjectData = [];
             axiosInstance.get(`api/mapview/${nextProps.match.params.id}/getsitedetail`)
                 .then(response => {
                     const Data = response.data.Data;
@@ -96,9 +98,10 @@ class Mapview extends Component {
     }
 
     render() {
+        console.log("render");
         if (this.state.siteProjectData.length > 0) {
             this.renderLeftPanel = (<LeftPanel selectedsitedata={this.state.siteProjectData} view="mapview" {...this.props} issinglesite={this.state.isSingleSite} />);
-            this.renderRightPanel = (<RightPanel selectedsitedata={this.state.siteProjectData} view="mapview" {...this.props} issinglesite={this.state.isSingleSite} />);
+            // this.renderRightPanel = (<RightPanel selectedsitedata={this.state.siteProjectData} view="mapview" {...this.props} issinglesite={this.state.isSingleSite} />);
         }
         if(this.state.selectedSiteData.length > 0){
             this.MainPanel =  <MainPanel selectedsitedata={this.state.selectedSiteData} view="mapview" {...this.props} issinglesite={this.state.isSingleSite}/>

@@ -37,8 +37,9 @@ class ListSettings extends Component {
 
     tableTrData = [];
     generateHtml() {
+        this.tableTrData = [];
         this.state.SettingList.map((setting, index) => {
-            this.tableTrData.push(<tr onClick={() => this.setClickedRow(index)} key={setting.SeverityConceptFilterName} >
+            this.tableTrData.push(<tr onClick={() => this.setClickedRow(index)} key={setting.SeverityConceptFilterId} >
                 <td>
                     {setting.SeverityConceptFilterName}
                 </td>

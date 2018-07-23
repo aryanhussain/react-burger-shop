@@ -48,6 +48,7 @@ class DamageTypes extends Component {
     template = null;
     generateHtml() {
         this.ConceptsList = [];
+        this.tableTrData = []
         this.state.ConceptsList.map((damage, index) => {
             //const disableClass = !severity.isSelected ? classes.Disable : null
             this.tableTrData.push(

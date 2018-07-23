@@ -6,10 +6,7 @@ import DamageTypes from '../../RightPanelComponents/Settings/DamageTypes/DamageT
 import DamageSummary from '../DamageSummary/DamageSummary';
 
 class LeftPanel extends Component {
-    componentDidUpdate() {
-        console.log(this.props)
-    }
-
+   
     renderByConditions(){
         if(this.props.match.params.id && this.props.view == 'mapview'){
            return <div id="accordion" className="leftaccordion">
