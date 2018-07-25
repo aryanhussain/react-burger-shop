@@ -7,24 +7,26 @@ import Layout from '../../hoc/Layout/Layout';
 import SiteFilterlft from '../../assets/images/Site-Filter-lft.png'
 import rightToggle from '../../assets/images/Analysis-right-toggle.png'
 import LegendsPng from '../../assets/images/Legends.png';
+import AnalysisPng from '../../assets/images/Analysis-right-toggle.png';
 import BreadCrum from '../../components/CommonLayouts/Breadcrum/Breadcrum';
 import axiosInstance from '../../services/axiosService';
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux';
+import * as ActionTypes from '../../stores/actions/actions'
 
 
 class Mapview extends Component {
     siteProjectData = [];
     renderLeftPanel = null;
-    renderRightPanel =  null;
-    MainPanel =  null;
+    renderRightPanel = null;
+    MainPanel = null;
     state = {
         selectedSiteData: [],
         siteProjectData: [],
-        isSingleSite : false
+        isSingleSite: false
     }
 
     componentWillReceiveProps(nextProps) {
-        
         if (nextProps.match.params.id) {
             this.siteProjectData = [];
             axiosInstance.get(`api/mapview/${nextProps.match.params.id}/getsitedetail`)
@@ -56,13 +58,14 @@ class Mapview extends Component {
                                 });
                             }
                         });
-                        this.setState({
-                            isSingleSite:true,
-                            siteProjectData: JSON.parse(localStorage.getItem('siteProjectData')),
-                            selectedSiteData: Data,
-                        });
-                        
-                       
+                        this.props.singleSitesDataHandler(Data,JSON.parse(localStorage.getItem('siteProjectData')))
+                        // this.setState({
+                        //     isSingleSite: true,
+                        //     siteProjectData: JSON.parse(localStorage.getItem('siteProjectData')),
+                        //     selectedSiteData: Data,
+                        // });
+
+
                     }
                 })
                 .catch(error => {
@@ -83,11 +86,12 @@ class Mapview extends Component {
                             });
                         });
                         localStorage.setItem('siteProjectData', JSON.stringify(this.siteProjectData));
-                        this.setState({
-                            isSingleSite:false,
-                            siteProjectData: this.siteProjectData,
-                            selectedSiteData: Data,
-                        });
+                        // this.setState({
+                        //     isSingleSite: false,
+                        //     siteProjectData: this.siteProjectData,
+                        //     selectedSiteData: Data,
+                        // });
+                        this.props.allSitesDataHandler(Data,this.siteProjectData)
                     }
                 })
                 .catch(error => {
@@ -98,17 +102,10 @@ class Mapview extends Component {
     }
 
     render() {
-        console.log("render");
-        if (this.state.siteProjectData.length > 0) {
-            this.renderLeftPanel = (<LeftPanel selectedsitedata={this.state.siteProjectData} view="mapview" {...this.props} issinglesite={this.state.isSingleSite} />);
-            // this.renderRightPanel = (<RightPanel selectedsitedata={this.state.siteProjectData} view="mapview" {...this.props} issinglesite={this.state.isSingleSite} />);
+        if (JSON.parse(localStorage.getItem('siteProjectData')).length > 0) {
+            this.renderLeftPanel = (<LeftPanel  view="mapview" {...this.props} />);
         }
-        if(this.state.selectedSiteData.length > 0){
-            this.MainPanel =  <MainPanel selectedsitedata={this.state.selectedSiteData} view="mapview" {...this.props} issinglesite={this.state.isSingleSite}/>
-            {this.state.isSingleSite?<div className="rightpanneltoggle" id="toggleright" >
-                <img src={rightToggle} />
-            </div>:null}
-        }
+        this.MainPanel = <MainPanel view="mapview" {...this.props} />
         return (
             <Aux>
                 <section id="landingpage">
@@ -122,7 +119,10 @@ class Mapview extends Component {
                             <div className="leftpanneltoggle" id="toggleleft">
                                 <img src={SiteFilterlft} />
                             </div>
-                           {this.MainPanel}
+                            {this.MainPanel}
+                            {this.state.isSingleSite ? <div className="rightpanneltoggle" id="toggleright" >
+                                <img src={AnalysisPng} />
+                            </div> : null}
                             <div className="rightpanneltogglegends" id="togglerightlegends" >
                                 <img src={LegendsPng} />
                             </div>
@@ -137,4 +137,13 @@ class Mapview extends Component {
     }
 }
 
-export default withRouter(Layout(Mapview))
+
+
+const mapDisptachToProps = dispatch => {
+    return {
+        allSitesDataHandler: (data,sitesAndProjects) => dispatch({ type: ActionTypes.ALL_SITES_DATA, allSitesData: data, sitesAndProjects:sitesAndProjects }),
+        singleSitesDataHandler: (data,sitesAndProjects) => dispatch({ type: ActionTypes.SINGLE_SITE_DATA, singleSiteData: data,sitesAndProjects:sitesAndProjects })
+    }
+}
+
+export default connect(null,mapDisptachToProps)(Layout((Mapview)))

@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
 import img from '../../../../assets/images/angle-double-up-.png';
 import classes from './SeverityTypes.css'
+import { connect } from 'react-redux';
+import * as ActionTypes from '../../../../stores/actions/actions'
 
 class SeverityTypes extends Component {
     state = {
         severityList: [],
     }
-    severityList  = [];
-    componentWillMount() {
+    severityList = [];
+    tableTrData = [];
+
+    componentWillReceiveProps() {
+
+
+    }
+
+    bindSeverities = () => {
         this.legendSubscription = this.props.concept;
-        console.log(this.props)
-        if (this.legendSubscription) {
+        if (this.legendSubscription.length > 0) {
             this.severityList = this.legendSubscription.filter(result =>
                 result.TypeID == 2
             )[0].ConceptsList.sort(function (name1, name2) {
@@ -22,46 +30,57 @@ class SeverityTypes extends Component {
                     return 0;
                 }
             });
-            this.severityList.forEach(element => {
-                element.isSelected = true;
-            });
-            this.setState({
-                severityList:this.severityList
-            })
-            //this.bindSeverities(resp);
+            if (!this.severityList) {
+                this.severityList = JSON.parse(localStorage.getItem('legendsData'));
+            }
+            if (this.severityList && this.props.filteredSettings) {
+                this.props.filteredSettings.SelectedSeverity.forEach(el => {
+                    this.severityList.forEach(element => {
+                        let _index = this.props.filteredSettings.SelectedSeverity.findIndex((i) => {
+                            return i.Id == element.ConceptTypeId
+                        })
+                        if (_index > -1)
+                            element.isSelected = true;
+                        else
+                            element.isSelected = false;
+                    });
+                });
+            }
         }
+        
     }
-    
+
 
     selectedSev(Id) {
         const list = [...this.severityList];
+        let _filterSettings = { ...this.props.filteredSettings };
+        _filterSettings.SelectedSeverity = [];
         list.forEach(element => {
             if (element.ConceptTypeId === Id) {
-              if (element.isSelected) {
-                element.isSelected = false;
-              } else {
-                element.isSelected = true;
-              }
+                if (element.isSelected) {
+                    element.isSelected = false;
+                } else {
+                    element.isSelected = true;
+                }
             }
-          });
+        });
 
         list.forEach(element => {
             if (element.isSelected) {
-              //this.selectedSettings.SelectedSeverity.push(new Severity(element.ConceptTypeId, element.Name));
+                _filterSettings.SelectedSeverity.push({ Id: element.ConceptTypeId, severityName: element.Name });
             }
         });
-        this.setState({
-            severityList:list
-        })
+
+        this.props.onSettingsLoadSeverityTypes(this.props.SettingList, _filterSettings)
+
+
     }
 
-
-
-    tableTrData = [];
     generateHtml() {
         this.tableTrData = [];
-        this.state.severityList.map((severity, index) => {
-            const disableClass = !severity.isSelected?classes.Disable:null
+        this.bindSeverities();
+        this.severityList.map((severity, index) => {
+            const disableClass = !severity.isSelected ? classes.Disable : null
             this.tableTrData.push(
                 <div className={`serverityoptions c-pointer ${disableClass}`} key={severity.ConceptTypeId}
                     onClick={() => this.selectedSev(severity.ConceptTypeId)}
@@ -96,5 +115,18 @@ class SeverityTypes extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        SettingList: state.filters.settings,
+        filteredSettings: state.filters.filteredSettings
+    }
+}
 
-export default SeverityTypes;
+const mapDisptachToProps = dispatch => {
+    return {
+        onSettingsLoadSeverityTypes: (data, filteredSettings) => dispatch({ type: ActionTypes.SELECTED_SETTINGS, payload: data, filteredSettings: filteredSettings })
+    }
+}
+
+
+export default connect(mapStateToProps, mapDisptachToProps)(SeverityTypes);

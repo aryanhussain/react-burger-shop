@@ -1,13 +1,16 @@
 import React, { Component, PureComponent } from 'react';
 import img from '../../../assets/images/angle-double-up-.png';
+import { connect } from 'react-redux';
+import * as ActionTypes from '../../../stores/actions/actions'
 
-export default class SitesAndProjects extends PureComponent {
+class SitesAndProjects extends PureComponent {
 
-    state = {
-        id: this.props.match.params.id,
-        isUpdating : false,
-        selectedsitedata:[]
-    }
+    // state = {
+    //     id: this.props.match.params.id,
+    //     isUpdating: false,
+    //     selectedsitedata: []
+    // }
+
     renderSiteHtml = []
 
     changeHandler(site) {
@@ -15,15 +18,27 @@ export default class SitesAndProjects extends PureComponent {
             pathname: `/operator/mapview/${site.SiteProfileId}`,
         });
     }
-    componentWillReceiveProps(){
-        this.setState({
-            isUpdating : false,
-        })
+
+    shouldComponentUpdate(){
+        return true;
+    }
+    
+
+    componentWillReceiveProps(props) {
+        console.log(props)
+    }
+    
+    componentWillMount() {
+        setTimeout(() => {
+            let elmnt = document.getElementById(`${this.props.match.params.id}`);
+            if (elmnt)
+                elmnt.scrollIntoView(true);
+        }, 2000);
     }
 
     initData = () => {
-        this.state.selectedsitedata = [];
-        let _data = [...this.props.selectedsitedata]
+        //this.state.selectedsitedata = [];
+        let _data = [...this.props.sitesAndProjects]
         _data.forEach(item => {
             if (item.SiteProfileId == this.props.match.params.id) {
                 item.isSelected = true;
@@ -31,41 +46,48 @@ export default class SitesAndProjects extends PureComponent {
                     item1.isSelected = true;
                     item1.isDisabled = false;
                 })
-            }else{
+            } else {
                 item.Projects.forEach(item2 => {
                     item2.isSelected = false;
                     item2.isDisabled = true;
                 })
-                
+
             }
-        })
-        this.state.selectedsitedata = _data;
+        });
+        var _siteIndex = _data.findIndex(i => { return i.SiteProfileId == this.props.match.params.id })
+        if (_siteIndex > -1) {
+            this.props.onProjectSelect(_data[_siteIndex])
+        }
+        //this.state.selectedsitedata = _data;
+      
     }
 
     projectSelectHandler = (event, project, site) => {
-        let _data = [...this.state.selectedsitedata]
+        let _data = [...this.props.sitesAndProjects]
         _data.forEach(item => {
             if (item.SiteProfileId == site.SiteProfileId) {
                 item.Projects.map(item1 => {
                     if (item1.ProjectCode == project.ProjectCode) {
-                        if (event.target.checked){
+                        if (event.target.checked) {
                             item1.isSelected = true;
                         }
-                        else{
+                        else {
                             item1.isSelected = false;
                         }
                     }
                 })
             }
-        })
-        this.setState({
-            isUpdating : true,
-            selectedsitedata : _data
-        })
-    }
+        });
+       
+        var _siteIndex = _data.findIndex(i => { return i.SiteProfileId == this.props.match.params.id })
+        if (_siteIndex > -1) {
+            this.props.onProjectSelect(_data[_siteIndex])
+        }
+        // this.setState({
+        //     isUpdating: true,
+        //     selectedsitedata: _data
+        // });
 
-    checkProjectSelected = (site) => {
-        return this.state.id == site.SiteProfileId ? true : false
     }
 
     getProjects = (site, bool) => {
@@ -82,8 +104,8 @@ export default class SitesAndProjects extends PureComponent {
 
     getSites = () => {
         this.renderSiteHtml = [];
-        if (!this.props.issinglesite) {
-            this.state.selectedsitedata.map(site => {
+        if (!this.props.isSingleSite) {
+            this.props.sitesAndProjects.map(site => {
                 if (site.Projects.length > 0) {
                     this.renderSiteHtml.push(<div id={site.SiteProfileId} key={site.SiteProfileId} className="form-check siteprojectcollaps">
                         <div className="siteprojectcheckradio">
@@ -95,7 +117,7 @@ export default class SitesAndProjects extends PureComponent {
                 }
             });
         } else {
-            this.state.selectedsitedata.map(site => {
+            this.props.sitesAndProjects.map(site => {
                 let bool = false;
                 if (site.Projects.length > 0) {
                     this.renderSiteHtml.push(<div id={site.SiteProfileId} key={site.SiteProfileId} className="form-check siteprojectcollaps">
@@ -115,12 +137,14 @@ export default class SitesAndProjects extends PureComponent {
     }
 
     render() {
+        console.log('render')
         this.renderSiteHtml = [];
-        if(!this.state.isUpdating){
-            this.initData();
-        }
+        // if (!this.state.isUpdating) {
+        //     this.initData();
+        // }
+        this.initData();
         this.getSites();
-        
+
         return (
             <div className="card">
                 <div className="card-header" id="headingOne">
@@ -139,3 +163,21 @@ export default class SitesAndProjects extends PureComponent {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        SettingList: state.sites.allSitesData,
+        filteredSettings: state.sites.singleSiteData,
+        isSingleSite: state.sites.isSingleSite,
+        sitesAndProjects: state.sites.sitesAndProjects
+    }
+}
+
+const mapDisptachToProps = dispatch => {
+    return {
+        onProjectSelect: (data) => dispatch({ type: ActionTypes.SELECTED_PROJECTS, selectedProjects: data })
+    }
+}
+
+
+export default connect(mapStateToProps, mapDisptachToProps)(SitesAndProjects)

@@ -4,27 +4,16 @@ import Layout from './hoc/Layout/Layout';
 import Mapview from './container/Mapview/Mapview';
 import Analysisview from './container/AnalysisView/AnalysisView';
 import Login from './container/Login/Login';
+import { withRouter } from 'react-router-dom'
 
 class App extends Component {
 
   componentDidMount() {
-    this.loadJS('https://maps.googleapis.com/maps/api/js?key=AIzaSyDxrdKM7E1iUKrX7g3GTGskhY_D5i7WZns');
-    this.loadJS("//cdnjs.cloudflare.com/ajax/libs/d3/4.7.2/d3.min.js");
-    this.loadJS("https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.6.4/svg.min.js");
+   
   }
 
-
-  loadJS(src) {
-    var ref = window.document.getElementsByTagName("script")[0];
-    var script = window.document.createElement("script");
-    script.src = src;
-    script.async = true;
-    script.defer = true;
-    ref.parentNode.insertBefore(script, ref);
-  }
 
   render() {
-    document.title = "Airfusion";
     let currentUser = localStorage.getItem('userInfo');
     let routesAuth = null;
     if (currentUser) {
@@ -34,6 +23,7 @@ class App extends Component {
           <Route path="/operator/mapview" component={Mapview} />
           <Route path="/operator/analysisview" component={Analysisview} />
           <Route path="/operator" component={Layout} />
+          <Route path="/login/:id" exact component={Login} />
         </Switch>
     } else {
       routesAuth =
@@ -52,4 +42,4 @@ class App extends Component {
 }
 
 
-export default App;
+export default withRouter(App);

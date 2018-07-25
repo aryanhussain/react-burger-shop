@@ -1,34 +1,50 @@
 import React, { Component } from 'react';
 import axiosInstance from '../../../../services/axiosService';
+import {connect} from 'react-redux';
 
 class ListSettings extends Component {
-    state = {
-        SettingList: [],
-        DefaultSeverityConceptFilterName: ''
-    }
-    componentWillMount() {
-        axiosInstance.get('api/SeverityConceptFilter/Get')
-            .then(response => {
-                const Data = response.data.Data;
-                if (Data) {
-                    this.setState({
-                        SettingList: Data,
-                        DefaultSeverityConceptFilterName: Data[0].SeverityConceptFilterName
-                    });
+   
+    SeverityConceptFilterId= null
 
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
+    // componentWillUpdate(){
+    //     console.log(this.props);
+    // }
 
     OnDefault(Id){
-
+        let url = null
+        if(Id){
+            url = `api/SeverityConceptFilter/SetDefault?id=${Id}`
+        }else{
+            url = `api/SeverityConceptFilter/SetDefault`
+        }
+        axiosInstance.post(url)
+        .then(response => {
+            const Data = response.data.Data;
+            if (Data) {
+                this.props.initData();
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+        
     }
 
-    OnDelete(Id,Name){
-
+    OnDelete(Id){
+        let url = null;
+        if(Id){
+            url = `api/SeverityConceptFilter?id=${Id}`
+        }
+        axiosInstance.delete(url)
+        .then(response => {
+            const Data = response.data.Data;
+            if (Data) {
+                this.props.initData();
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
     }
 
     setClickedRow(index){
@@ -38,20 +54,23 @@ class ListSettings extends Component {
     tableTrData = [];
     generateHtml() {
         this.tableTrData = [];
-        this.state.SettingList.map((setting, index) => {
-            this.tableTrData.push(<tr onClick={() => this.setClickedRow(index)} key={setting.SeverityConceptFilterId} >
-                <td>
-                    {setting.SeverityConceptFilterName}
-                </td>
-                <td>
-                    <input className="table-checkbox c-pointer" type="radio" id="defaultCheck1"
-                        checked={setting.IsDefault} onChange={() => this.OnDefault(setting.SeverityConceptFilterId)} />
-                </td>
-                {setting.SeverityConceptFilterId ? <td onClick={() => this.OnDelete(setting.SeverityConceptFilterId, setting.SeverityConceptFilterName)}>
-                    <i className="fa fa-trash c-pointer" aria-hidden="true"></i>
-                </td> : null}
-            </tr>)
-        })
+        if(this.props.SettingList.length > 0){
+            this.SeverityConceptFilterId = this.props.SettingList[0].SeverityConceptFilterName
+            this.props.SettingList.map((setting, index) => {
+                this.tableTrData.push(<tr onClick={() => this.setClickedRow(index)} key={setting.SeverityConceptFilterId} >
+                    <td>
+                        {setting.SeverityConceptFilterName}
+                    </td>
+                    <td>
+                        <input className="table-checkbox c-pointer" type="radio" id="defaultCheck1"
+                            checked={setting.IsDefault} onChange={() => this.OnDefault(setting.SeverityConceptFilterId)} />
+                    </td>
+                    {setting.SeverityConceptFilterId ? <td onClick={() => this.OnDelete(setting.SeverityConceptFilterId)}>
+                        <i className="fa fa-trash c-pointer" aria-hidden="true"></i>
+                    </td> : null}
+                </tr>)
+            })
+        }
     }
     render() {
         this.generateHtml()
@@ -60,7 +79,7 @@ class ListSettings extends Component {
                 <div className="navbar">
                     <div className="dropdown">
                         <button className="btn dropdown-toggle" type="button" data-toggle="dropdown" tooltip="{{DefaultSeverityConceptFilterName}}" container="body">
-                            {this.state.DefaultSeverityConceptFilterName} {this.state.DefaultSeverityConceptFilterName.length > 20 ? '...' : null}
+                            {this.SeverityConceptFilterId}
                             <span className="caret"></span>
                         </button>
                         <ul className="dropdown-menu">
@@ -84,4 +103,11 @@ class ListSettings extends Component {
     }
 }
 
-export default ListSettings;
+const mapStateToProps = state =>{
+    return {
+        SettingList : state.filters.settings
+    }
+}
+
+
+export default connect(mapStateToProps)(ListSettings);

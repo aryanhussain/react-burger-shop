@@ -18,7 +18,6 @@ const Layout = ( WrappedComponent ) => {
         } )
         .catch( error => {
             this.setState({conceptTypes:[]});
-            console.log(error);
         } );
     }
 
