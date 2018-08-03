@@ -102,9 +102,9 @@ class Mapview extends Component {
     }
 
     render() {
-        if (JSON.parse(localStorage.getItem('siteProjectData')).length > 0) {
+        //if (JSON.parse(localStorage.getItem('siteProjectData')) && JSON.parse(localStorage.getItem('siteProjectData')).length > 0) {
             this.renderLeftPanel = (<LeftPanel  view="mapview" {...this.props} />);
-        }
+       // }
         this.MainPanel = <MainPanel view="mapview" {...this.props} />
         return (
             <Aux>

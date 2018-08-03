@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { GoogleMap, Marker, withGoogleMap, withScriptjs } from "react-google-maps";
 import img from '../../../assets//images/eolic-energy.png';
 import img1 from '../../../assets//images/active_turbine.png';
 import * as Classes from './SiteMapView.css'
@@ -10,6 +9,7 @@ import T2 from '../../../assets//images/T2.png';
 import T3 from '../../../assets//images/T3.png';
 import T4 from '../../../assets//images/T4.png';
 import { naturalSort } from '../../../services/utilityHelpers';
+import * as ActionTypes from '../../../stores/actions/actions'
 const MarkerWithLabel = require('markerwithlabel')(window.google.maps);
 
 
@@ -39,6 +39,15 @@ const TurbineStatus = {
     TURBINE_IN_SITE_NO_PROJECT_RUNNING: 4,
     TURBINE_WITH_DAMAGES: 5
 }
+
+const Severities = {
+    S1: 1,
+    S2: 2,
+    S3: 3,
+    S4: 4,
+    S5: 5
+}
+
 const SVG_META = 'data:image/svg+xml;charset=UTF-8,';
 
 
@@ -52,10 +61,9 @@ class SiteMapView extends Component {
         this.markersInfoWindow = {};
         this.map = null
     }
-    
+
     siteMapData = [];
     renderMap() {
-        debugger;
         if (!this.props.isSingleSite) {
             const coords = { lat: 41.375885, lng: 2.177813 };
             var marker = {};
@@ -136,7 +144,7 @@ class SiteMapView extends Component {
                         order: i.Order
                     });
                 });
-               // triangleCoords = naturalSort(triangleCoords,'order');
+                // triangleCoords = naturalSort(triangleCoords,'order');
                 const polygonObj = new window.google.maps.Polygon({
                     paths: triangleCoords,
                     fillOpacity: 0.1,
@@ -149,19 +157,20 @@ class SiteMapView extends Component {
                 });
                 polygonObj.setMap(this.map);
                 this.markers = {};
+                this.settings = {};
                 this.settings = { ...this.props.filteredSettings };
                 const siteProjects = { ...this.props.selectedProjects };
-                if(siteProjects){
+                this.selectedProjects = [];
+                if (siteProjects) {
                     siteProjects.Projects.forEach(item => {
-                    if (item.isSelected) {
-                        this.selectedProjects.push(item.ProjectCode);
-                    }
+                        if (item.isSelected) {
+                            this.selectedProjects.push(item.ProjectCode);
+                        }
                     });
                 }
-        
                 this.selectedProjects = this.selectedProjects || [];
                 if (this.settings && this.selectedProjects) {
-                  this.loadSitesMap(this.siteMapData, this.settings, this.selectedProjects);
+                    this.loadSitesMap(this.siteMapData, this.settings, this.selectedProjects);
                 }
             });
 
@@ -370,7 +379,7 @@ class SiteMapView extends Component {
             }
 
         });
-        //this.getDamageSummaryData();
+        this.getDamageSummaryData();
 
         if (turbinesInSiteNoProjectRunning.length > 0) {
             this.loadTurbinesIntoMap(turbinesInSiteNoProjectRunning, TurbineStatus.TURBINE_IN_SITE_NO_PROJECT_RUNNING);
@@ -401,7 +410,6 @@ class SiteMapView extends Component {
         let pieData;
 
         if (type === TurbineStatus.TURBINE_WITH_DAMAGES) {
-            //console.log(turbines);
         }
 
 
@@ -619,6 +627,98 @@ class SiteMapView extends Component {
 
     }
 
+    generateTurbineHtml(data) {
+        let html = '<div id="divProjectInfoWindow" class="col-md-12">';
+        if (data) {
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+
+                html += `
+                <div class="mappopover mappopoverclasstwo">
+                <div class="mappopoverinfo">
+                  <div class="onclickpopover">
+                    <div class="onclickpopoverinner">
+                     <div class="onclickpopovertitle">
+                      <div class="onclickpopovertext"><span>${element.TurbineId}</span><br>
+                      <span>${element.LatLOng}</span></div>
+                    <div class="onclickpopoverbtn">
+                        <button class="btn readyforreviewbtn">${element.Status}</button>
+                    </div>
+                  </div>
+                  <div class="onclickpopovergraph">
+                    <div class="onclickgraphimg">
+                    <div class="mapdonetview">
+                      <div class="onclickgraphtitle"># Damages Detected By Severity</div>
+                      <div class="onclickgraphimage">
+                        <div id="pie-${element.ProjectCode + element.TurbineId}" >
+                        </div>
+                      </div>
+                      </div>
+                    <div class="onclickgraphinfo">
+                      <div class="onclickgraphtitle"># Severity By Blade</div>
+                      <div class="table-responsive">
+                        <table class="table table-sm tooltiptable">
+                            <thead>
+                              <tr>
+                                <th>
+                                  <span class="tablecolorcircle"></span>
+                                </th>
+                                <th>
+                                  <span class="tablecolorcircle"></span>
+                                </th>
+                                <th>
+                                  <span class="tablecolorcircle"></span>
+                                </th>
+                                <th>
+                                  <span class="tablecolorcircle"></span>
+                                </th>
+                                <th>
+                                  <span class="tablecolorcircle"></span>
+                                </th>
+                                <th>
+                                  <span class="tablecolorcircle"></span>
+                                </th>
+                                <th class="tablecolorcircle">#</th>
+        
+                              </tr>
+                            </thead>
+                            <tbody>`;
+                element.SeveritiesByBlade.forEach(element => {
+                    html += `<tr>
+                          <td>${element.Blade}</td>
+                          <td>${element.S5 ? element.S5 : 0}</td>
+                          <td>${element.S4 ? element.S4 : 0}</td>
+                          <td>${element.S3 ? element.S3 : 0}</td>
+                          <td>${element.S2 ? element.S2 : 0}</td>
+                          <td>${element.S1 ? element.S1 : 0}</td>
+                          <td>${element.S1 + element.S2 + element.S3 + element.S4 + element.S5}</td>
+                          </tr>
+                        `;
+                });
+                html += `
+                        </tbody>
+                    </table>
+                  </div>
+                        </div>
+                        
+                      </div>
+                      
+                    </div>
+                    
+                  </div>
+     
+                </div>
+                </div>
+              </div>
+             
+         `;
+
+            }
+            html += '</div>';
+            return html;
+        }
+    }
+
     loadPieChart(element, makeChart1) {
         if (element.DamageClassification.length > 0) {
             let count = 0;
@@ -691,6 +791,99 @@ class SiteMapView extends Component {
         }
     }
 
+    loadPieChartByTurbine(data) {
+        let total = {};
+        data.forEach(el => {
+            total[el.ProjectCode] = 0
+            el.SeveritiesByBlade.forEach(element => {
+                total[el.ProjectCode] = total[el.ProjectCode] + element.S1 + element.S2 + element.S3 + element.S4 + element.S5;
+            });
+        });
+
+        let makeChart1;
+        for (let index = 0; index < data.length; index++) {
+            const element = data[index];
+            makeChart1 = [];
+            for (const key in element.TotalSeverities[0]) {
+                makeChart1.push({
+                    label: key,
+                    value: element.TotalSeverities[0][key],
+                    color: this.getcolor(key)
+                });
+            }
+            this.pie = new window.d3pie(`pie-${element.ProjectCode + element.TurbineId}`, {
+                'header': {
+                    'title': {
+                        'text': total[data[index].ProjectCode],
+                        'fontSize': 16,
+                        'font': 'open sans'
+                    },
+                    'location': 'pie-center',
+                },
+                'size': {
+                    'canvasHeight': 110,
+                    'canvasWidth': 110,
+                    'pieInnerRadius': '68%',
+                    "pieOuterRadius": "100%"
+
+                },
+                'data': {
+                    'sortOrder': 'value-desc',
+                    'content': makeChart1,
+                },
+                'labels': {
+                    'outer': {
+                        'format': 'none',
+                        'pieDistance': 26
+                    },
+                    'inner': {
+                        'format': 'none',
+                        'hideWhenLessThanPercentage': 3
+                    },
+                    'mainLabel': {
+                        'fontSize': 11
+                    },
+                    'percentage': {
+                        'color': '#ffffff',
+                        'decimalPlaces': 0
+                    },
+                    'value': {
+                        'color': '#adadad',
+                        'fontSize': 11
+                    },
+                    'lines': {
+                        'enabled': true
+                    },
+                    'truncation': {
+                        'enabled': true
+                    }
+                },
+                'effects': {
+                    'load': {
+                        'effect': 'none'
+                    },
+                    'pullOutSegmentOnClick': {
+                        'effect': 'none',
+                        'speed': 400,
+                        'size': 8
+                    }
+                },
+                'misc': {
+                    'gradient': {
+                        'enabled': true,
+                        'percentage': 100
+                    },
+                    'canvasPadding': {
+                        'top': 0,
+                        'right': 0,
+                        'bottom': 0,
+                        'left': 0
+                    }
+                }
+            });
+        }
+    }
+
     getcolor(sev) {
         const legends = this.props.concept;
         if (legends) {
@@ -704,6 +897,230 @@ class SiteMapView extends Component {
             });
             return color;
         }
+    }
+
+    getturbineData(turbine) {
+
+        const obj = [];
+
+        turbine.Projects.forEach(project => {
+
+            const object = {};
+            const bladeData = [];
+            object.TurbineId = turbine.TurbineId;
+            object.LatLOng = `${turbine.Latitude},${turbine.Longitude}`;
+            object.SeveritiesByBlade = [];
+            object.TotalSeverities = [];
+            object.Status = project.TurbineStatusName;
+            object.ProjectCode = project.ProjectCode;
+
+            const aData = this.getBladeData(project.SeverityByBlade, 'A');
+            const bData = this.getBladeData(project.SeverityByBlade, 'B');
+            const cData = this.getBladeData(project.SeverityByBlade, 'C');
+            let blade = { S1: 0, S2: 0, S3: 0, S4: 0, S5: 0 };
+            let S1 = 0, S2 = 0, S3 = 0, S4 = 0, S5 = 0;
+            blade.Blade = 'A';
+            aData.forEach(item => {
+                switch (item.type) {
+                    case 1:
+                        blade.S1 = blade.S1 + item.count;
+                        S1 = S1 + item.count;
+                        break;
+                    case 2:
+                        blade.S2 = blade.S2 + item.count;
+                        S2 = S2 + item.count;
+                        break;
+                    case 3:
+                        blade.S3 = blade.S3 + item.count;
+                        S3 = S3 + item.count;
+                        break;
+                    case 4:
+                        blade.S4 = blade.S4 + item.count;
+                        S4 = S4 + item.count;
+                        break;
+                    case 5:
+                        blade.S5 = blade.S5 + item.count;
+                        S5 = S5 + item.count;
+                        break;
+                }
+            });
+
+            bladeData.push(blade);
+            blade = { S1: 0, S2: 0, S3: 0, S4: 0, S5: 0 };
+            blade.Blade = 'B';
+            bData.forEach(item => {
+                switch (item.type) {
+                    case 1:
+                        blade.S1 = blade.S1 + item.count;
+                        S1 = S1 + item.count;
+                        break;
+                    case 2:
+                        blade.S2 = blade.S2 + item.count;
+                        S2 = S2 + item.count;
+                        break;
+                    case 3:
+                        blade.S3 = blade.S3 + item.count;
+                        S3 = S3 + item.count;
+                        break;
+                    case 4:
+                        blade.S4 = blade.S4 + item.count;
+                        S4 = S4 + item.count;
+                        break;
+                    case 5:
+                        blade.S5 = blade.S5 + item.count;
+                        S5 = S5 + item.count;
+                        break;
+                }
+            });
+            bladeData.push(blade);
+            blade = { S1: 0, S2: 0, S3: 0, S4: 0, S5: 0 };
+            blade.Blade = 'C';
+
+            cData.forEach(item => {
+                switch (item.type) {
+                    case 1:
+                        blade.S1 = blade.S1 + item.count;
+                        S1 = S1 + item.count;
+                        break;
+                    case 2:
+                        blade.S2 = blade.S2 + item.count;
+                        S2 = S2 + item.count;
+                        break;
+                    case 3:
+                        blade.S3 = blade.S3 + item.count;
+                        S3 = S3 + item.count;
+                        break;
+                    case 4:
+                        blade.S4 = blade.S4 + item.count;
+                        S4 = S4 + item.count;
+                        break;
+                    case 5:
+                        blade.S5 = blade.S5 + item.count;
+                        S5 = S5 + item.count;
+                        break;
+                }
+            });
+            bladeData.push(blade);
+            blade = {};
+
+            // severities by blade
+            object.SeveritiesByBlade = bladeData;
+            object.TotalSeverities.push({ S5: S5, S4: S4, S3: S3, S2: S2, S1: S1 });
+            obj.push(object);
+        });
+        return obj;
+
+    }
+
+    getBladeData(data, blade) {
+        const sevData = [];
+        const bladeData = data.filter(blades => {
+            return blades.Blade === blade;
+        });
+        bladeData.forEach(b => {
+            if (b.DamageDetails && b.DamageDetails.length > 0) {
+                b.DamageDetails.forEach(damage => {
+                    if (damage.Sevirity && damage.Sevirity.length > 0) {
+                        damage.Sevirity.forEach(sev => {
+                            const _index = sevData.findIndex(item => item.Severity === sev.Severity);
+                            if (_index > -1) {
+                                sevData[_index].count = sevData[_index].count + sev.SeverityCount;
+                            } else {
+                                sevData.push({ type: sev.SeverityId, count: sev.SeverityCount });
+                            }
+                        });
+                    }
+                });
+
+            }
+        });
+        return sevData;
+    }
+
+    getDamageSummaryData() {
+        const severityArray = [];
+        const categoryArray = [];
+        for (const severity in Severities) {
+                severityArray.push({
+                    'name': severity,
+                    'count': 0,
+                    'severityId': severity
+                });
+            
+        }
+
+        const turbines = JSON.parse(JSON.stringify(this.turbinesWithDamages));
+        turbines.forEach(turbine => {
+            turbine.Projects.forEach(project => {
+                project.SeverityByBlade.forEach(blade => {
+                    blade.DamageDetails.forEach(damage => {
+                        damage.Sevirity.forEach(sev => {
+
+                            const sevIndex = severityArray.findIndex(function (i) {
+                                return i.name === sev.Severity;
+                            });
+                            // No need to check if sevIndex is -1 as index will always be found.
+                            severityArray[sevIndex].count = severityArray[sevIndex].count + sev.SeverityCount;
+
+
+                            // Update the data for stacked progress bar
+                            const catIndex = categoryArray.findIndex(function (i) {
+                                return i.name === damage.Category;
+                            });
+                            if (catIndex !== -1) {
+                                categoryArray[catIndex].count = categoryArray[catIndex].count + sev.SeverityCount;
+
+
+                                const catSevIndex = categoryArray[catIndex].severity.findIndex(function (i) {
+                                    return i.SeverityId === sev.SeverityId;
+                                });
+                                if (catSevIndex !== -1) {
+                                    categoryArray[catIndex].severity[catSevIndex].SeverityCount =
+                                        categoryArray[catIndex].severity[catSevIndex].SeverityCount + sev.SeverityCount;
+                                } else {
+                                    categoryArray[catIndex].severity.push(sev);
+                                }
+
+                            } else {
+                                categoryArray.push({
+                                    'name': damage.Category,
+                                    'count': sev.SeverityCount,
+                                    'severity': [sev]
+                                }
+                                );
+                            }
+                        });
+                    });
+                });
+            });
+        });
+
+        const damageSummary = [];
+        severityArray.sort((a, b) => b.severityId - a.severityId);
+        damageSummary.push(severityArray);
+        categoryArray.sort((a, b) => {
+            if (b.name > a.name) {
+                return -1;
+            }
+            if (b.name < a.name) {
+                return 1;
+            }
+            return 0;
+        });
+        categoryArray.forEach(category => {
+            category.severity.sort((a, b) => {
+                if (b.SeverityId < a.SeverityId) {
+                    return -1;
+                }
+                if (b.SeverityId > a.SeverityId) {
+                    return 1;
+                }
+                return 0;
+            });
+        });
+        damageSummary.push(categoryArray);
+        this.props.saveDamageSummary(damageSummary);
+
     }
 
 
@@ -752,9 +1169,15 @@ const mapStateToProps = state => {
         sitesAndProjects: state.sites.sitesAndProjects,
         SettingList: state.filters.settings,
         filteredSettings: state.filters.filteredSettings,
-        selectedProjects:state.filters.selectedProjects
+        selectedProjects: state.filters.selectedProjects
+    }
+}
+
+const mapDisptachToProps = dispatch => {
+    return {
+        saveDamageSummary : (summary) => dispatch({ type: ActionTypes.DAMAGE_SUMMARY_LEFT, summary: summary })
     }
 }
 
 
-export default connect(mapStateToProps)(SiteMapView)
+export default connect(mapStateToProps, mapDisptachToProps)(SiteMapView)

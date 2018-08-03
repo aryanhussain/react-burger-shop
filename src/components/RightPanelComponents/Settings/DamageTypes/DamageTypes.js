@@ -123,7 +123,7 @@ class DamageTypes extends Component {
 
         list.forEach(element => {
             if (element.isSelected) {
-                _filterSettings.SelectedDamageType.push({Id:element.ConceptTypeId, severityName:element.Name});
+                _filterSettings.SelectedDamageType.push({Id:element.ConceptTypeId, DamageTypeName:element.Name});
             }
         });
 
@@ -148,7 +148,7 @@ class DamageTypes extends Component {
             _filterSettings.SelectedDamageType = [];
             list.forEach(element => {
               element.isChecked = true;
-              _filterSettings.SelectedDamageType.push({Id:element.ConceptTypeId, severityName:element.Name});
+              _filterSettings.SelectedDamageType.push({Id:element.ConceptTypeId, DamageTypeName:element.Name});
             });
             this.props.onSettingsLoadSeverityTypes(this.props.SettingList, _filterSettings)
             

@@ -1,17 +1,11 @@
-import React, { Component, PureComponent } from 'react';
+import React, { Component } from 'react';
 import img from '../../../assets/images/angle-double-up-.png';
 import { connect } from 'react-redux';
 import * as ActionTypes from '../../../stores/actions/actions'
 
-class SitesAndProjects extends PureComponent {
-
-    // state = {
-    //     id: this.props.match.params.id,
-    //     isUpdating: false,
-    //     selectedsitedata: []
-    // }
-
-    renderSiteHtml = []
+class SitesAndProjects extends Component {
+    renderSiteHtml = [];
+    
 
     changeHandler(site) {
         this.props.history.replace({
@@ -19,31 +13,32 @@ class SitesAndProjects extends PureComponent {
         });
     }
 
-    shouldComponentUpdate(){
-        return true;
-    }
-    
-
-    componentWillReceiveProps(props) {
-        console.log(props)
-    }
+    shouldUpdate = false;
     
     componentWillMount() {
-        setTimeout(() => {
-            let elmnt = document.getElementById(`${this.props.match.params.id}`);
-            if (elmnt)
-                elmnt.scrollIntoView(true);
-        }, 2000);
+        // setTimeout(() => {
+        //     let elmnt = document.getElementById(`${this.props.match.params.id}`);
+        //     if (elmnt)
+        //         elmnt.scrollIntoView(true);
+        // }, 2000);
+    }
+
+
+    componentWillUpdate() {
+        // setTimeout(() => {
+        //     let elmnt = document.getElementById(`${this.props.match.params.id}`);
+        //     if (elmnt)
+        //         elmnt.scrollIntoView(true);
+        // }, 2000);
     }
 
     initData = () => {
-        //this.state.selectedsitedata = [];
         let _data = [...this.props.sitesAndProjects]
         _data.forEach(item => {
             if (item.SiteProfileId == this.props.match.params.id) {
                 item.isSelected = true;
                 item.Projects.forEach(item1 => {
-                    item1.isSelected = true;
+                    item1.isSelected = false;
                     item1.isDisabled = false;
                 })
             } else {
@@ -58,8 +53,6 @@ class SitesAndProjects extends PureComponent {
         if (_siteIndex > -1) {
             this.props.onProjectSelect(_data[_siteIndex])
         }
-        //this.state.selectedsitedata = _data;
-      
     }
 
     projectSelectHandler = (event, project, site) => {
@@ -78,15 +71,13 @@ class SitesAndProjects extends PureComponent {
                 })
             }
         });
-       
+        this.shouldUpdate = true;
+        this.props.onProjectChanges(_data);
         var _siteIndex = _data.findIndex(i => { return i.SiteProfileId == this.props.match.params.id })
         if (_siteIndex > -1) {
             this.props.onProjectSelect(_data[_siteIndex])
         }
-        // this.setState({
-        //     isUpdating: true,
-        //     selectedsitedata: _data
-        // });
+        this.props.onProjectSelect(_data[_siteIndex])
 
     }
 
@@ -137,12 +128,10 @@ class SitesAndProjects extends PureComponent {
     }
 
     render() {
-        console.log('render')
         this.renderSiteHtml = [];
-        // if (!this.state.isUpdating) {
-        //     this.initData();
-        // }
-        this.initData();
+        if(!this.shouldUpdate){
+            this.initData();
+        }
         this.getSites();
 
         return (
@@ -169,13 +158,16 @@ const mapStateToProps = state => {
         SettingList: state.sites.allSitesData,
         filteredSettings: state.sites.singleSiteData,
         isSingleSite: state.sites.isSingleSite,
-        sitesAndProjects: state.sites.sitesAndProjects
+        sitesAndProjects: state.sites.sitesAndProjects,
+        selectedProjects:state.filters.selectedProjects
     }
 }
 
+
 const mapDisptachToProps = dispatch => {
     return {
-        onProjectSelect: (data) => dispatch({ type: ActionTypes.SELECTED_PROJECTS, selectedProjects: data })
+        onProjectSelect: (data) => dispatch({ type: ActionTypes.SELECTED_PROJECTS, selectedProjects: data }),
+        onProjectChanges: (data) => dispatch({ type: ActionTypes.SITES_AND_PROJECT, sitesAndProjects: data }),
     }
 }
 

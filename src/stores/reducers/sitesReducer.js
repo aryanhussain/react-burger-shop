@@ -3,9 +3,9 @@ import * as Actions from '../actions/actions';
 const initialState = {
     settings: [],
     allSitesData: [],
-    singleSiteData : {},
-    isSingleSite:false,
-    sitesAndProjects : []
+    singleSiteData: {},
+    isSingleSite: false,
+    sitesAndProjects: []
 }
 
 const sitesReducers = (state = initialState, action) => {
@@ -13,14 +13,19 @@ const sitesReducers = (state = initialState, action) => {
         case Actions.ALL_SITES_DATA:
             return Object.assign({}, state, {
                 allSitesData: action.allSitesData,
-                isSingleSite:false,
-                sitesAndProjects:action.sitesAndProjects
+                isSingleSite: false,
+                sitesAndProjects: action.sitesAndProjects
             });
         case Actions.SINGLE_SITE_DATA:
             return Object.assign({}, state, {
                 singleSiteData: action.singleSiteData,
-                isSingleSite:true,
-                sitesAndProjects:action.sitesAndProjects
+                isSingleSite: true,
+                sitesAndProjects: action.sitesAndProjects
+            });
+
+        case Actions.SITES_AND_PROJECT:
+            return Object.assign({}, state, {
+                sitesAndProjects: action.sitesAndProjects
             });
 
         default:
