@@ -12,6 +12,11 @@ const damageSummaryReducer = (state = initialState, action) => {
                 type: 'left',
                 summary: action.summary
             });
+        case Actions.DAMAGE_SUMMARY_RIGHT:
+            return Object.assign({}, state, {
+                type: 'right',
+                summary: action.summary
+            });   
         default:
             return state
 

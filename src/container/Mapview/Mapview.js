@@ -59,11 +59,7 @@ class Mapview extends Component {
                             }
                         });
                         this.props.singleSitesDataHandler(Data,JSON.parse(localStorage.getItem('siteProjectData')))
-                        // this.setState({
-                        //     isSingleSite: true,
-                        //     siteProjectData: JSON.parse(localStorage.getItem('siteProjectData')),
-                        //     selectedSiteData: Data,
-                        // });
+                        
 
 
                     }
@@ -86,11 +82,7 @@ class Mapview extends Component {
                             });
                         });
                         localStorage.setItem('siteProjectData', JSON.stringify(this.siteProjectData));
-                        // this.setState({
-                        //     isSingleSite: false,
-                        //     siteProjectData: this.siteProjectData,
-                        //     selectedSiteData: Data,
-                        // });
+                       
                         this.props.allSitesDataHandler(Data,this.siteProjectData)
                     }
                 })
@@ -106,6 +98,8 @@ class Mapview extends Component {
             this.renderLeftPanel = (<LeftPanel  view="mapview" {...this.props} />);
        // }
         this.MainPanel = <MainPanel view="mapview" {...this.props} />
+        this.renderRightPanel = <RightPanel view="mapview" {...this.props} />
+        console.log(this.props)
         return (
             <Aux>
                 <section id="landingpage">
@@ -120,7 +114,7 @@ class Mapview extends Component {
                                 <img src={SiteFilterlft} />
                             </div>
                             {this.MainPanel}
-                            {this.state.isSingleSite ? <div className="rightpanneltoggle" id="toggleright" >
+                            {this.props.match.params.id ? <div className="rightpanneltoggle" id="toggleright" >
                                 <img src={AnalysisPng} />
                             </div> : null}
                             <div className="rightpanneltogglegends" id="togglerightlegends" >

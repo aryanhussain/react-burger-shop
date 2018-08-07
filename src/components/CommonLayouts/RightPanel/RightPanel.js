@@ -3,6 +3,10 @@ import SitesAndProjects from '../../LeftPanelComponents/SitesAndProjects/SitesAn
 import ListSettings from '../../RightPanelComponents/Settings/ListSettings/ListSettings';
 import SeverityTypes from '../../RightPanelComponents/Settings/SeverityTypes/SeverityTypes';
 import DamageTypes from '../../RightPanelComponents/Settings/DamageTypes/DamageTypes';
+import ListAnalysis from '../../RightPanelComponents/Analysis/ListAnalysis/ListAnalysis';
+import ListTurbines from '../../RightPanelComponents/Analysis/ListTurbines/ListTurbines';
+import DamageSummary from '../DamageSummary/DamageSummary';
+import AnalysisDamageSummary from '../AnalysisDamageSummary/AnalysisDamageSummary';
 
 class RightPanel extends Component {
 
@@ -17,10 +21,9 @@ class RightPanel extends Component {
            <div className="onclickanlegend" style={{display:legendBlock}}>
 
            </div>
-            <SitesAndProjects {...this.props} />
-            <ListSettings {...this.props} />
-            <SeverityTypes {...this.props} />
-            <DamageTypes {...this.props} />
+            <ListAnalysis {...this.props} />
+            <ListTurbines {...this.props} />
+            <AnalysisDamageSummary {...this.props} />
             </div>
         }else if(!this.props.match.params.id && this.props.view == 'mapview'){
           return  <div className="onclickanlegend" style={{display:legendBlock}}>

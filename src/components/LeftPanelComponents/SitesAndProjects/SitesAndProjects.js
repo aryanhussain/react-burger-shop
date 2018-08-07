@@ -25,11 +25,11 @@ class SitesAndProjects extends Component {
 
 
     componentWillUpdate() {
-        // setTimeout(() => {
-        //     let elmnt = document.getElementById(`${this.props.match.params.id}`);
-        //     if (elmnt)
-        //         elmnt.scrollIntoView(true);
-        // }, 2000);
+        setTimeout(() => {
+            let elmnt = document.getElementById(`${this.props.match.params.id}`);
+            if (elmnt)
+                elmnt.scrollIntoView(true);
+        }, 2000);
     }
 
     initData = () => {
@@ -38,7 +38,7 @@ class SitesAndProjects extends Component {
             if (item.SiteProfileId == this.props.match.params.id) {
                 item.isSelected = true;
                 item.Projects.forEach(item1 => {
-                    item1.isSelected = false;
+                    item1.isSelected = true;
                     item1.isDisabled = false;
                 })
             } else {
@@ -77,7 +77,7 @@ class SitesAndProjects extends Component {
         if (_siteIndex > -1) {
             this.props.onProjectSelect(_data[_siteIndex])
         }
-        this.props.onProjectSelect(_data[_siteIndex])
+        //this.props.onProjectSelect(_data[_siteIndex])
 
     }
 

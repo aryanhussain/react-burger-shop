@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { ProgressBar } from 'react-bootstrap';
 
 
-class DamageSummary extends PureComponent {
+class AnalysisDamageSummary extends PureComponent {
 
     pie = null;
     totalSeverityCount = 0;
@@ -272,7 +272,7 @@ class DamageSummary extends PureComponent {
         if (this.pie && this.pie.element) {
             this.pie.updateProp('data.content', []);
         }
-        if (this.props.type == 'left') {
+        if (this.props.type == 'right') {
 
             if (this.props.summary && this.props.summary.length > 1) {
                 this.loadPieChart(this.props.summary[0]);
@@ -291,4 +291,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(DamageSummary)
+export default connect(mapStateToProps)(AnalysisDamageSummary)

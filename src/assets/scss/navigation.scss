@@ -2841,3 +2841,31 @@ html, body{
 }
 
 
+.analysisList {
+    td {
+        cursor: pointer;
+    }
+    .fa-trash {
+        cursor: pointer;
+    }
+}
+
+.analysisTurbinesAction {
+    float: left;
+    width: 100%;
+    background: #ffffff;
+    padding: 4px 10px;
+    border: 1px solid #cccccc;
+    border-left: medium none;
+    border-right: medium none;
+    label {
+        font-size: 12px;
+        font-weight: 600;
+        font-style: normal;
+        font-family: 'Open Sans', sans-serif;
+        cursor: pointer;
+    }
+    .filterallclear img {
+        margin-right: 5px;
+    }
+}

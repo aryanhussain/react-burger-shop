@@ -11,11 +11,13 @@ import sitesReducers from './stores/reducers/sitesReducer';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import damageSummaryReducer from './stores/reducers/damageSummaryReducer';
+import analysisReducer from './stores/reducers/analysisReducer';
 
 const rootReducers = combineReducers({
     filters : filterReducer,
     sites : sitesReducers,
-    damagesummary:damageSummaryReducer
+    damagesummary:damageSummaryReducer,
+    analysis:analysisReducer
 })
 
 const store =  createStore(rootReducers,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
