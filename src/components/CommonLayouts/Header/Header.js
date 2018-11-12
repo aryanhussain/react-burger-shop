@@ -22,19 +22,15 @@ class Header extends Component {
                                     <li className="nav-item">
                                         <Link to="/operator/mapview" className="nav-link">Home</Link>
                                     </li>
-                                    <li className="nav-item">
+                                    {/* <li className="nav-item">
                                         <a className="nav-link">Report</a>
-                                    </li>
+                                    </li> */}
                                     <li className="nav-item">
                                         <a className="nav-link" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Setting</a>
                                         <div className="dropdown">
                                             <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                <a className="dropdown-item" title=" Your profile is locked" >
-                                                    <i className="fa fa-id-badge" aria-hidden="true"></i> Edit Profile</a>
                                                 <a className="dropdown-item">
                                                     <i className="fa fa-id-badge" aria-hidden="true"></i> Edit Profile</a>
-                                                <a className="dropdown-item" title="Your profile is locked">
-                                                    <i className="fa fa-key" aria-hidden="true"></i> Change Password</a>
                                                 <a className="dropdown-item">
                                                     <i className="fa fa-key" aria-hidden="true"></i> Change Password</a>
                                                 <a className="dropdown-item ">

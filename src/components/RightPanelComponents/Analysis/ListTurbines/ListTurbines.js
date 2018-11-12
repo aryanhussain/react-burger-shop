@@ -173,8 +173,6 @@ class ListTurbines extends Component {
     }
 
     getAnalysisDamageSummary() {
-        debugger
-
         this.isAnalysisButtonShow();
         if (this.allSiteData && this.allSiteData.Turbines) {
             let siteData;

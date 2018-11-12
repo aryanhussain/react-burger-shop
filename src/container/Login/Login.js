@@ -5,7 +5,7 @@ import {} from 'react-router-dom'
 class Login extends Component {
 
 
-    componentDidMount() {
+    componentWillMount() {
         this.token = this.props.match.params.id;
         this.token = atob(this.props.match.params.id);
         if (!this.token) {

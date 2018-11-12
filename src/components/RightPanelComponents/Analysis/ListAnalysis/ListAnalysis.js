@@ -59,7 +59,6 @@ class ListAnalysis extends Component {
     }
 
     setClickedRow(data) {
-        debugger;
         this.setState({
             selectedAnalysis:data,
         },()=>{

@@ -4,10 +4,10 @@ const axiosInstance = axios.create({
     baseURL: 'https://windspectpreprod.azurewebsites.net/rest/'
 });
 let authToken = localStorage.getItem('userInfo');
-authToken = JSON.parse(authToken);
 if(authToken){
-    axiosInstance.defaults.headers.common['Authorization'] = `Bearer vgfquZ4qXy1rLWAWPyS-nBDCkkFxap8t1W8ABNtQ5vPEcUC6lQ134OCBokdmfz-Hje9hrdgkkvyAJtFWXO-caLghLAqVskQO2WoBuUztUz9SbvFm1AnMkpfoeUIR8WGoKZ61yyvF5hwHrtcX71f4xj79GQi6ACgpjeGMrAD07FTclr2HUHZx1YLxQAcYL0E69f3RggcXiHO2-BBXxSsgRQWJIOr8--iw22vf8n29c1-1yLyrThiHy0dh--_vHmZ1ABXajAiUPDaGCVnd3n17pPbjr6jvBi5VH4TvRpGdTV57Vk_My-o2sAOuwNkAHK_leydBX1JxW64ymwxyGP_R2PqOOM8GPsX_s0TT9OjX-Dv_sm9ohzmm9coVvm19GlADCnRC_NnN7CkHElO175YUdi23qGui5LqAudVkGpyXB23dA-JeZiWISEV1FEAZzO45zryWh1qSCHRUNv2lgEDddDHq_9gAzmJ5Ku6Juyt6cUfHM6n901VvQ3AtmqY4YbwgkCxtdX-ohDQu-pgfUFmjq2HkZyadM7ULfjVKEnNEFuSps_GeJmH6hvX5VWb69k2R7jXZ9WQtCYB-6B5c0BZw0A`;
-    axiosInstance.defaults.headers.common['Id'] = `NzczRUNDRDctNUMzMy00MDlELTgwQjYtREVFNTBERTg1REM3`;
+    authToken = JSON.parse(authToken);
+    axiosInstance.defaults.headers.common['Authorization'] = `Bearer LqAGWosAEIYqoBvzu9to07rUOBfnyi9IfgpGDOn4y5SEju_NIJjZ2zecPe55FksMNbMwr3drq-l4IquXyO4ZJvh3b2w0-X_quQkB4kjzjg1nm-aM3YsgWoPZWig8XHnqzj5NRG4Y5ilyOnuEvt9kJoZRSmOnaAE_N1NRLbdEcQUPXQfCoRe4xWptIevdTkupveZVMxyEwVZAQIgrE1vatpM7UQMHyDQ5MdOkSa_S0IdkbtYPEIhjkvYWHIsDp8rfr9c5LYUjYFqPFqeNN1SaUxhtN_vTWMghuIMmWZvq-tw4QL8BHTAN8R4y4yj8YEV4JfhyE_XmOb124VGY6xRuTTeeGopeKAHznw7-gNuf6vdLZqKaalL6FdzFcGydm7guwyUvZ0RlYxSFKBVTNdSzaKRriGyPXGWjjx8q_jLU0dOCHBQ93dqvfnZaqP6sGTpHFnosoChd76c1R-SLCNtKXSNRcrCw2YsEf2JKl8RiH0kVecaO3yyZj6yI1tFusSe6EmA_-SBIkpb8sNYm_4JkHmvZHKdXTlrpwIev0B8JD6GdaRO19Zh_J5b9lfgSVMz2Ob2ha0bu9ErE9sODiI26T91W7p-Ft1BsU1eEVwvT35Y`;
+    axiosInstance.defaults.headers.common['Id'] = `RUZDQzNCOUUtNzI3MC00REIzLThFMzQtMzM4NDhCMkUzRjUz`;
 }
 
 

@@ -16,15 +16,6 @@ class SitesAndProjects extends Component {
     shouldUpdate = false;
     
     componentWillMount() {
-        // setTimeout(() => {
-        //     let elmnt = document.getElementById(`${this.props.match.params.id}`);
-        //     if (elmnt)
-        //         elmnt.scrollIntoView(true);
-        // }, 2000);
-    }
-
-
-    componentWillUpdate() {
         setTimeout(() => {
             let elmnt = document.getElementById(`${this.props.match.params.id}`);
             if (elmnt)
@@ -32,8 +23,13 @@ class SitesAndProjects extends Component {
         }, 2000);
     }
 
+
+    componentWillUpdate() {
+    }
+
     initData = () => {
-        let _data = [...this.props.sitesAndProjects]
+        let _data = [...this.props.sitesAndProjects];
+        //this.props.onProjectSelect([])
         _data.forEach(item => {
             if (item.SiteProfileId == this.props.match.params.id) {
                 item.isSelected = true;
@@ -49,6 +45,7 @@ class SitesAndProjects extends Component {
 
             }
         });
+        debugger;
         var _siteIndex = _data.findIndex(i => { return i.SiteProfileId == this.props.match.params.id })
         if (_siteIndex > -1) {
             this.props.onProjectSelect(_data[_siteIndex])
@@ -77,7 +74,6 @@ class SitesAndProjects extends Component {
         if (_siteIndex > -1) {
             this.props.onProjectSelect(_data[_siteIndex])
         }
-        //this.props.onProjectSelect(_data[_siteIndex])
 
     }
 

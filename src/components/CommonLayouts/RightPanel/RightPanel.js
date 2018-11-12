@@ -23,7 +23,7 @@ class RightPanel extends Component {
            </div>
             <ListAnalysis {...this.props} />
             <ListTurbines {...this.props} />
-            <AnalysisDamageSummary {...this.props} />
+            
             </div>
         }else if(!this.props.match.params.id && this.props.view == 'mapview'){
           return  <div className="onclickanlegend" style={{display:legendBlock}}>

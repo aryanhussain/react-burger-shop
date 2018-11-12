@@ -109,7 +109,7 @@ class Mapview extends Component {
                             {this.renderLeftPanel}
                         </div>
                         <div className="centermaplayout">
-                            <BreadCrum />
+                            
                             <div className="leftpanneltoggle" id="toggleleft">
                                 <img src={SiteFilterlft} />
                             </div>
